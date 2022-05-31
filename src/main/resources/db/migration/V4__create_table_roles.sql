@@ -1,0 +1,7 @@
+CREATE TABLE roles (
+    id TINYINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO roles ( id, name )
+VALUES ( 1, 'ADMIN' );
