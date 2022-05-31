@@ -8,11 +8,17 @@ import org.springframework.stereotype.Component
 class PostToPostViewMapper : Mapper<Post, PostView> {
 
     override fun map(data: Post): PostView {
+        val lastModificationDate = if (data.updateDate?.isAfter(data.releaseDate) == true) {
+            data.updateDate
+        } else {
+            data.releaseDate
+        }
+
         return PostView(
+            id = data.id,
             title = data.title,
             content = data.content,
-            releaseDate = data.releaseDate,
-            updateDate = data.updateDate
+            lastDate = lastModificationDate
         )
     }
 }
