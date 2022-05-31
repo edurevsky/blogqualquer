@@ -1,0 +1,3 @@
+ALTER TABLE posts
+MODIFY COLUMN release_date DATETIME,
+MODIFY COLUMN update_date DATETIME;
