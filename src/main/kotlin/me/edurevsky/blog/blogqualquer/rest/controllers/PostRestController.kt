@@ -4,6 +4,8 @@ import me.edurevsky.blog.blogqualquer.dto.NewPostRequest
 import me.edurevsky.blog.blogqualquer.dto.PostView
 import me.edurevsky.blog.blogqualquer.dto.UpdatePostRequest
 import me.edurevsky.blog.blogqualquer.services.PostService
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -44,4 +46,7 @@ class PostRestController(
         postService.deletePost(id)
         return ResponseEntity.noContent().build()
     }
+
+    @GetMapping
+    fun findPaginated(@PageableDefault(size = 10, sort = ["updateDate"]) pageable: Pageable) = postService.findPaginated(pageable)
 }

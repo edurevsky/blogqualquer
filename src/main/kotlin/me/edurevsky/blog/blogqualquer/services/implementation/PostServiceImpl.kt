@@ -9,6 +9,8 @@ import me.edurevsky.blog.blogqualquer.mappers.NewPostRequestToPostMapper
 import me.edurevsky.blog.blogqualquer.mappers.PostToPostViewMapper
 import me.edurevsky.blog.blogqualquer.repositories.PostRepository
 import me.edurevsky.blog.blogqualquer.services.PostService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -42,5 +44,10 @@ class PostServiceImpl(
     override fun deletePost(id: Long) {
         val post = postRepository.findById(id).orElseThrow { PostNotFoundException("Not found") }
         postRepository.delete(post)
+    }
+
+    override fun findPaginated(pageable: Pageable): Page<PostView> {
+        val posts = postRepository.findAll(pageable)
+        return posts.map { post -> postToPostViewMapper.map(post) }
     }
 }
