@@ -4,7 +4,110 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+    <style>
+        .hljs {
+            background: #fff;
+            color: black;
+        }
+
+        /* Gray DOCTYPE selectors like WebKit */
+        .xml .hljs-meta {
+            color: #c0c0c0;
+        }
+
+        .hljs-comment,
+        .hljs-quote {
+            color: #007400;
+        }
+
+        .hljs-tag,
+        .hljs-attribute,
+        .hljs-keyword,
+        .hljs-selector-tag,
+        .hljs-literal,
+        .hljs-name {
+            color: #aa0d91;
+        }
+
+        .hljs-variable,
+        .hljs-template-variable {
+            color: #3F6E74;
+        }
+
+        .hljs-code,
+        .hljs-string,
+        .hljs-meta .hljs-string {
+            color: #c41a16;
+        }
+
+        .hljs-regexp,
+        .hljs-link {
+            color: #0E0EFF;
+        }
+
+        .hljs-title,
+        .hljs-symbol,
+        .hljs-bullet,
+        .hljs-number {
+            color: #1c00cf;
+        }
+
+        .hljs-section,
+        .hljs-meta {
+            color: #643820;
+        }
+
+
+        .hljs-title.class_,
+        .hljs-class .hljs-title,
+        .hljs-type,
+        .hljs-built_in,
+        .hljs-params {
+            color: #5c2699;
+        }
+
+        .hljs-attr {
+            color: #836C28;
+        }
+
+        .hljs-subst {
+            color: #000;
+        }
+
+        .hljs-formula {
+            background-color: #eee;
+            font-style: italic;
+        }
+
+        .hljs-addition {
+            background-color: #baeeba;
+        }
+
+        .hljs-deletion {
+            background-color: #ffc8bd;
+        }
+
+        .hljs-selector-id,
+        .hljs-selector-class {
+            color: #9b703f;
+        }
+
+        .hljs-doctag,
+        .hljs-strong {
+            font-weight: bold;
+        }
+
+        .hljs-emphasis {
+            font-style: italic;
+        }
+    </style>
 </head>
+
+<header class="container-fluid bg-light" th:fragment="header">
+    <div class="container p-3">
+        <nav class="navbar navbar-light">
+            <span class="navbar-brand mb-0 h1">Blog Foda</span>
+        </nav>
+    </div>
+</header>

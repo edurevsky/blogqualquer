@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head th:replace="~{fragments :: head('ainda nao funciona')}">
-
-</head>
+<head th:replace="~{fragments :: head(${post.title})}"></head>
 <body>
 
-<div class="container">
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container my-3">
 
     <div class="post">
         <span th:utext="${renderedContent}"></span>
