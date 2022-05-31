@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -26,7 +27,7 @@ class PostRestController(
 
     @PostMapping("/save")
     fun saveNewPost(
-        @RequestBody postRequest: NewPostRequest,
+        @Valid @RequestBody postRequest: NewPostRequest,
         uriBuilder: UriComponentsBuilder
     ): ResponseEntity<PostView> {
         val postView = postService.saveNewPost(postRequest)
@@ -39,7 +40,7 @@ class PostRestController(
 
     @PutMapping("/update")
     @Transactional
-    fun updatePost(@RequestBody request: UpdatePostRequest): PostView = postService.updatePost(request)
+    fun updatePost(@Valid @RequestBody request: UpdatePostRequest): PostView = postService.updatePost(request)
 
     @DeleteMapping("/{id}")
     fun deletePost(@PathVariable("id") id: Long): ResponseEntity<Any> {
