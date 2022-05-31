@@ -16,5 +16,8 @@ data class Post(
     val releaseDate: LocalDateTime? = null,
 
     @Column(name = "update_date")
-    var updateDate: LocalDateTime? = null
+    var updateDate: LocalDateTime? = null,
+
+    @ManyToOne
+    val author: User? = null
 )
