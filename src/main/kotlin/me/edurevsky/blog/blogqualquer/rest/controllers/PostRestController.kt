@@ -40,5 +40,8 @@ class PostRestController(
     fun updatePost(@RequestBody request: UpdatePostRequest): PostView = postService.updatePost(request)
 
     @DeleteMapping("/{id}")
-    fun deletePost(@PathVariable("id") id: Long) = postService.deletePost(id)
+    fun deletePost(@PathVariable("id") id: Long): ResponseEntity<Any> {
+        postService.deletePost(id)
+        return ResponseEntity.noContent().build()
+    }
 }
