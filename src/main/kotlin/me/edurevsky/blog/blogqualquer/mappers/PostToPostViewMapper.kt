@@ -18,7 +18,8 @@ class PostToPostViewMapper : Mapper<Post, PostView> {
             id = data.id,
             title = data.title,
             content = data.content,
-            lastDate = lastModificationDate
+            lastDate = lastModificationDate,
+            authorCompleteName = data.author?.completeName
         )
     }
 }

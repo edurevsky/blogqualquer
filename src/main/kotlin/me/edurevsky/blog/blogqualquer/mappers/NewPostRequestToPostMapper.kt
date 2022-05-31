@@ -14,7 +14,8 @@ class NewPostRequestToPostMapper : Mapper<NewPostRequest, Post> {
             title = data.title,
             content = data.content,
             releaseDate = currentDateTime,
-            updateDate = currentDateTime
+            updateDate = currentDateTime,
+            author = null
         )
     }
 }
