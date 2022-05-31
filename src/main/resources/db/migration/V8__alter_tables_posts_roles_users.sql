@@ -1,0 +1,7 @@
+ALTER TABLE posts
+ADD FOREIGN KEY ( author_id ) REFERENCES users(id);
+
+ALTER TABLE roles_users RENAME users_roles;
+
+ALTER TABLE users_roles
+ADD COLUMN id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT;

@@ -14,8 +14,12 @@ data class User(
     @Column(name = "complete_name")
     val completeName: String? = null,
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "roles_users")
     @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = [JoinColumn(name = "user_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
+    )
     val roles: List<Role> = mutableListOf()
 )
