@@ -1,0 +1,2 @@
+ALTER TABLE posts
+ADD COLUMN author_id BIGINT NOT NULL REFERENCES users(id);
