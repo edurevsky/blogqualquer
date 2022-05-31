@@ -11,4 +11,6 @@ interface PostService {
     fun findById(id: Long): PostView
 
     fun updatePost(request: UpdatePostRequest): PostView
+
+    fun deletePost(id: Long)
 }

@@ -32,10 +32,15 @@ class PostServiceImpl(
     }
 
     override fun updatePost(request: UpdatePostRequest): PostView {
-        val fds: Post = postRepository.findById(request.id!!).orElseThrow { EntityNotFoundException("Not found") }
-        fds.updateDate = LocalDateTime.now()
-        fds.title = request.title
-        fds.content = request.content
-        return postToPostViewMapper.map(fds)
+        val post: Post = postRepository.findById(request.id!!).orElseThrow { EntityNotFoundException("Not found") }
+        post.updateDate = LocalDateTime.now()
+        post.title = request.title
+        post.content = request.content
+        return postToPostViewMapper.map(post)
+    }
+
+    override fun deletePost(id: Long) {
+        val post = postRepository.findById(id).orElseThrow { EntityNotFoundException("Not found") }
+        postRepository.delete(post)
     }
 }

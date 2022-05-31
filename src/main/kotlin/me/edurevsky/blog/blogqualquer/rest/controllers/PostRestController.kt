@@ -6,6 +6,7 @@ import me.edurevsky.blog.blogqualquer.dto.UpdatePostRequest
 import me.edurevsky.blog.blogqualquer.services.PostService
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -37,4 +38,7 @@ class PostRestController(
     @PutMapping("/update")
     @Transactional
     fun updatePost(@RequestBody request: UpdatePostRequest): PostView = postService.updatePost(request)
+
+    @DeleteMapping("/{id}")
+    fun deletePost(@PathVariable("id") id: Long) = postService.deletePost(id)
 }
