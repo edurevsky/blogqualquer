@@ -15,6 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.header.writers.StaticHeadersWriter
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 
 /**
@@ -29,23 +33,33 @@ class SecurityConfiguration(
 
     override fun configure(http: HttpSecurity?) {
         http
-            ?.csrf()?.disable()
-            ?.authorizeHttpRequests()
+            ?.headers()?.addHeaderWriter(StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
+        ?.and()
+        ?.authorizeHttpRequests()
             ?.antMatchers(HttpMethod.POST, "/login")
                 ?.permitAll()
             ?.antMatchers(HttpMethod.GET, "/api/v1/posts/{id}")
                 ?.permitAll()
+            ?.antMatchers(HttpMethod.GET, "/api/v1/posts/rendered/{id}")
+                ?.permitAll()
             ?.antMatchers(HttpMethod.GET, "/api/v1/posts")
                 ?.permitAll()
-            ?.antMatchers("/api/v1/posts/**")?.hasAnyAuthority("ADMIN")
-            ?.antMatchers(HttpMethod.GET, "/posts/**")?.permitAll()
-                ?.anyRequest()
-                ?.authenticated()
-            ?.and()
-                ?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            ?.and()
-                ?.addFilterBefore(JWTLoginFilter(authManager = authenticationManager(), jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
-                ?.addFilterBefore(JWTAuthenticationFilter(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
+            ?.antMatchers("/api/v1/posts/**")
+                ?.hasAnyAuthority("ADMIN")
+            ?.antMatchers(HttpMethod.GET, "/posts/**")
+                ?.permitAll()
+            ?.anyRequest()
+            ?.authenticated()
+        ?.and()
+            ?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        ?.and()
+            ?.csrf()
+        ?.and()
+            ?.cors()
+            ?.disable()
+
+            ?.addFilterBefore(JWTLoginFilter(authManager = authenticationManager(), jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
+            ?.addFilterBefore(JWTAuthenticationFilter(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
     }
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
@@ -56,5 +70,14 @@ class SecurityConfiguration(
 
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+}
 
+@Configuration
+@EnableWebMvc
+class CorsConfig : WebMvcConfigurer {
+
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry
+            .addMapping("http://localhost:3000")
+    }
 }

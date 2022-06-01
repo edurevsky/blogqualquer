@@ -3,26 +3,21 @@ package me.edurevsky.blog.blogqualquer.rest.controllers
 import me.edurevsky.blog.blogqualquer.dto.NewPostRequest
 import me.edurevsky.blog.blogqualquer.dto.PostView
 import me.edurevsky.blog.blogqualquer.dto.UpdatePostRequest
+import me.edurevsky.blog.blogqualquer.services.MarkdownService
 import me.edurevsky.blog.blogqualquer.services.PostService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/posts")
 class PostRestController(
-    private val postService: PostService
+    private val postService: PostService,
+    private val markdownService: MarkdownService
 ) {
 
     @PostMapping("/save")
@@ -36,7 +31,17 @@ class PostRestController(
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable("id") id: Long): PostView = postService.findById(id)
+    fun findById(@PathVariable("id") id: Long): ResponseEntity<PostView> {
+        val post = postService.findById(id)
+        return ResponseEntity.ok(post)
+    }
+
+    @GetMapping("/rendered/{id}")
+    fun getPostWithRenderedMdContentById(@PathVariable("id") id: Long): ResponseEntity<PostView> {
+        val post = postService.findById(id)
+        post.content = markdownService.render(post.content!!)
+        return ResponseEntity.ok(post)
+    }
 
     @PutMapping("/update")
     @Transactional
