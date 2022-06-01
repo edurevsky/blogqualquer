@@ -29,13 +29,16 @@ class SecurityConfiguration(
 
     override fun configure(http: HttpSecurity?) {
         http
-            ?.csrf()
-                ?.disable()
+            ?.csrf()?.disable()
             ?.authorizeHttpRequests()
             ?.antMatchers(HttpMethod.POST, "/login")
                 ?.permitAll()
-            ?.antMatchers(HttpMethod.GET, "/posts/**")
+            ?.antMatchers(HttpMethod.GET, "/api/v1/posts/{id}")
                 ?.permitAll()
+            ?.antMatchers(HttpMethod.GET, "/api/v1/posts")
+                ?.permitAll()
+            ?.antMatchers("/api/v1/posts/**")?.hasAnyAuthority("ADMIN")
+            ?.antMatchers(HttpMethod.GET, "/posts/**")?.permitAll()
                 ?.anyRequest()
                 ?.authenticated()
             ?.and()
