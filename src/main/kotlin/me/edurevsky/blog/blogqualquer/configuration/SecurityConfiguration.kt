@@ -54,8 +54,6 @@ class SecurityConfiguration(
             ?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ?.and()
             ?.csrf()
-        ?.and()
-            ?.cors()
             ?.disable()
 
             ?.addFilterBefore(JWTLoginFilter(authManager = authenticationManager(), jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
