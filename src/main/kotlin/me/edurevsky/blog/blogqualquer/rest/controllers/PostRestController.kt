@@ -5,6 +5,8 @@ import me.edurevsky.blog.blogqualquer.dto.PostView
 import me.edurevsky.blog.blogqualquer.dto.RenderedPostView
 import me.edurevsky.blog.blogqualquer.dto.UpdatePostRequest
 import me.edurevsky.blog.blogqualquer.services.PostService
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
@@ -19,6 +21,7 @@ class PostRestController(
     private val postService: PostService,
 ) {
 
+    @CacheEvict(value = ["singlePost", "paginatedPosts"], allEntries = true)
     @PostMapping
     fun saveNewPost(
         @Valid @RequestBody postRequest: NewPostRequest,
@@ -29,22 +32,26 @@ class PostRestController(
         return ResponseEntity.created(uri).body(postView)
     }
 
+    @Cacheable("singlePost")
     @GetMapping("/{id}")
     fun findById(@PathVariable("id") id: Long): ResponseEntity<RenderedPostView> {
         val post = postService.findById(id)
         return ResponseEntity.ok(post)
     }
 
+    @CacheEvict(value = ["singlePost", "paginatedPosts"], allEntries = true)
     @PutMapping
     @Transactional
     fun updatePost(@Valid @RequestBody request: UpdatePostRequest): PostView = postService.updatePost(request)
 
+    @CacheEvict(value = ["singlePost", "paginatedPosts"], allEntries = true)
     @DeleteMapping("/{id}")
     fun deletePost(@PathVariable("id") id: Long): ResponseEntity<Any> {
         postService.deletePost(id)
         return ResponseEntity.noContent().build()
     }
 
+    @Cacheable("paginatedPosts")
     @GetMapping
     fun findPaginated(@PageableDefault(size = 10, sort = ["updateDate"]) pageable: Pageable) = postService.findPaginated(pageable)
 }
