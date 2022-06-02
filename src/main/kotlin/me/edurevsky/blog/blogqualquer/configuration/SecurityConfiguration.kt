@@ -15,9 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.header.writers.StaticHeadersWriter
 import org.springframework.web.servlet.config.annotation.CorsRegistry
-import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 
@@ -33,21 +31,15 @@ class SecurityConfiguration(
 
     override fun configure(http: HttpSecurity?) {
         http
-//            ?.headers()?.addHeaderWriter(StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
-//        ?.and()
         ?.authorizeHttpRequests()
             ?.antMatchers(HttpMethod.POST, "/login")
                 ?.permitAll()
             ?.antMatchers(HttpMethod.GET, "/api/v1/posts/{id}")
                 ?.permitAll()
-            ?.antMatchers(HttpMethod.GET, "/api/v1/posts/rendered/{id}")
-                ?.permitAll()
             ?.antMatchers(HttpMethod.GET, "/api/v1/posts")
                 ?.permitAll()
             ?.antMatchers("/api/v1/posts/**")
                 ?.hasAnyAuthority("ADMIN")
-            ?.antMatchers(HttpMethod.GET, "/posts/**")
-                ?.permitAll()
             ?.anyRequest()
             ?.authenticated()
         ?.and()
@@ -71,7 +63,6 @@ class SecurityConfiguration(
 }
 
 @Configuration
-// @EnableWebMvc
 class CorsConfig : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
