@@ -19,7 +19,7 @@ class PostRestController(
     private val postService: PostService,
 ) {
 
-    @PostMapping("/save")
+    @PostMapping
     fun saveNewPost(
         @Valid @RequestBody postRequest: NewPostRequest,
         uriBuilder: UriComponentsBuilder
@@ -35,7 +35,7 @@ class PostRestController(
         return ResponseEntity.ok(post)
     }
 
-    @PutMapping("/update")
+    @PutMapping
     @Transactional
     fun updatePost(@Valid @RequestBody request: UpdatePostRequest): PostView = postService.updatePost(request)
 

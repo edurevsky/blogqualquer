@@ -38,13 +38,10 @@ class PostServiceImpl(
 
     override fun updatePost(request: UpdatePostRequest): PostView {
         val post: Post = postRepository.findById(request.id!!).orElseThrow { PostNotFoundException("Not found") }
-        val updatedPost = Post(
-            id = post.id,
+        val updatedPost = post.copy(
             updateDate = LocalDateTime.now(),
             title = request.title,
             content = request.content,
-            author = post.author,
-            releaseDate = post.releaseDate
         )
         postRepository.save(updatedPost)
         return postToPostViewMapper.map(updatedPost)

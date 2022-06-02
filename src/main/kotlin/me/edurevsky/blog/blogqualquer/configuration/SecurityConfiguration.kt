@@ -33,8 +33,8 @@ class SecurityConfiguration(
 
     override fun configure(http: HttpSecurity?) {
         http
-            ?.headers()?.addHeaderWriter(StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
-        ?.and()
+//            ?.headers()?.addHeaderWriter(StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
+//        ?.and()
         ?.authorizeHttpRequests()
             ?.antMatchers(HttpMethod.POST, "/login")
                 ?.permitAll()
