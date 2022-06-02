@@ -9,15 +9,24 @@ data class Post(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    var title: String? = null,
-    var content: String? = null,
+    val title: String? = null,
+    val content: String? = null,
 
     @Column(name = "release_date")
     val releaseDate: LocalDateTime? = null,
 
     @Column(name = "update_date")
-    var updateDate: LocalDateTime? = null,
+    val updateDate: LocalDateTime? = null,
 
     @ManyToOne
     val author: User? = null
-)
+) {
+    val lastDate: LocalDateTime?
+        get() {
+            return if (releaseDate?.isAfter(updateDate) == true) {
+                 releaseDate
+            } else {
+                updateDate
+            }
+        }
+}

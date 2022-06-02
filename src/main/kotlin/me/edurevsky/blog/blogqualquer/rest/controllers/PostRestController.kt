@@ -2,8 +2,8 @@ package me.edurevsky.blog.blogqualquer.rest.controllers
 
 import me.edurevsky.blog.blogqualquer.dto.NewPostRequest
 import me.edurevsky.blog.blogqualquer.dto.PostView
+import me.edurevsky.blog.blogqualquer.dto.RenderedPostView
 import me.edurevsky.blog.blogqualquer.dto.UpdatePostRequest
-import me.edurevsky.blog.blogqualquer.services.MarkdownService
 import me.edurevsky.blog.blogqualquer.services.PostService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -17,7 +17,6 @@ import javax.validation.Valid
 @RequestMapping("/api/v1/posts")
 class PostRestController(
     private val postService: PostService,
-    private val markdownService: MarkdownService
 ) {
 
     @PostMapping("/save")
@@ -31,15 +30,8 @@ class PostRestController(
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable("id") id: Long): ResponseEntity<PostView> {
+    fun findById(@PathVariable("id") id: Long): ResponseEntity<RenderedPostView> {
         val post = postService.findById(id)
-        return ResponseEntity.ok(post)
-    }
-
-    @GetMapping("/rendered/{id}")
-    fun getPostWithRenderedMdContentById(@PathVariable("id") id: Long): ResponseEntity<PostView> {
-        val post = postService.findById(id)
-        post.content = markdownService.render(post.content!!)
         return ResponseEntity.ok(post)
     }
 

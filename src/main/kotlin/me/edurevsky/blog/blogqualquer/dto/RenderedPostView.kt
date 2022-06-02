@@ -1,7 +1,6 @@
 package me.edurevsky.blog.blogqualquer.dto
 
-data class PostView(
-    val id: Long? = null,
+data class RenderedPostView(
     val title: String? = null,
     val content: String? = null,
     val lastDate: String? = null,

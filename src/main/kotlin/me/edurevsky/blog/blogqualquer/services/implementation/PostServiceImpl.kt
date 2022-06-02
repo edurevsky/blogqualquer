@@ -2,11 +2,13 @@ package me.edurevsky.blog.blogqualquer.services.implementation
 
 import me.edurevsky.blog.blogqualquer.dto.NewPostRequest
 import me.edurevsky.blog.blogqualquer.dto.PostView
+import me.edurevsky.blog.blogqualquer.dto.RenderedPostView
 import me.edurevsky.blog.blogqualquer.dto.UpdatePostRequest
 import me.edurevsky.blog.blogqualquer.entities.Post
 import me.edurevsky.blog.blogqualquer.exceptions.PostNotFoundException
 import me.edurevsky.blog.blogqualquer.mappers.NewPostRequestToPostMapper
 import me.edurevsky.blog.blogqualquer.mappers.PostToPostViewMapper
+import me.edurevsky.blog.blogqualquer.mappers.RenderedPostViewMapper
 import me.edurevsky.blog.blogqualquer.repositories.PostRepository
 import me.edurevsky.blog.blogqualquer.services.PostService
 import org.springframework.data.domain.Page
@@ -18,7 +20,8 @@ import java.time.LocalDateTime
 class PostServiceImpl(
     private val postRepository: PostRepository,
     private val postRequestToPostMapper: NewPostRequestToPostMapper,
-    private val postToPostViewMapper: PostToPostViewMapper
+    private val postToPostViewMapper: PostToPostViewMapper,
+    private val renderedPostViewMapper: RenderedPostViewMapper
 ) : PostService {
 
     override fun saveNewPost(request: NewPostRequest): PostView {
@@ -27,18 +30,24 @@ class PostServiceImpl(
         return postToPostViewMapper.map(postEntity)
     }
 
-    override fun findById(id: Long): PostView {
+    override fun findById(id: Long): RenderedPostView {
         val postEntity = postRepository.findById(id)
             .orElseThrow { PostNotFoundException("'$id' not found") }
-        return postToPostViewMapper.map(postEntity)
+        return renderedPostViewMapper.map(postEntity)
     }
 
     override fun updatePost(request: UpdatePostRequest): PostView {
         val post: Post = postRepository.findById(request.id!!).orElseThrow { PostNotFoundException("Not found") }
-        post.updateDate = LocalDateTime.now()
-        post.title = request.title
-        post.content = request.content
-        return postToPostViewMapper.map(post)
+        val updatedPost = Post(
+            id = post.id,
+            updateDate = LocalDateTime.now(),
+            title = request.title,
+            content = request.content,
+            author = post.author,
+            releaseDate = post.releaseDate
+        )
+        postRepository.save(updatedPost)
+        return postToPostViewMapper.map(updatedPost)
     }
 
     override fun deletePost(id: Long) {
