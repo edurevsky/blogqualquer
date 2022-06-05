@@ -5,5 +5,6 @@ data class PostView(
     val title: String? = null,
     val content: String? = null,
     val lastDate: String? = null,
-    val authorCompleteName: String? = null
+    val authorCompleteName: String? = null,
+    val about: String? = null
 )

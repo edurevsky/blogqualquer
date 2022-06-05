@@ -13,12 +13,14 @@ class NewPostRequestToPostMapper(
 
     override fun map(data: NewPostRequest): Post {
         val currentDateTime = LocalDateTime.now()
+        val author = userService.findById(data.authorId!!)
         return Post(
             title = data.title,
             content = data.content,
             releaseDate = currentDateTime,
             updateDate = currentDateTime,
-            author = userService.findById(data.authorId!!)
+            author = author,
+            about = data.about
         )
     }
 }

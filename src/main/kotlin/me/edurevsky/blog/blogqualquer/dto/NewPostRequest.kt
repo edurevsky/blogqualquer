@@ -9,5 +9,7 @@ data class NewPostRequest(
     @field:NotBlank(message = "Não é possível enviar um post sem conteúdo.")
     val content: String? = null,
     @field:NotNull
-    val authorId: Long? = null
+    val authorId: Long? = null,
+    @field:NotBlank(message = "Sobre não pode estar vazio.")
+    val about: String? = null
 )
