@@ -19,7 +19,9 @@ data class Post(
     val updateDate: LocalDateTime? = null,
 
     @ManyToOne
-    val author: User? = null
+    val author: User? = null,
+
+    val about: String? = null
 ) {
     val lastDate: LocalDateTime?
         get() {
