@@ -42,6 +42,7 @@ class PostServiceImpl(
             updateDate = LocalDateTime.now(),
             title = request.title,
             content = request.content,
+            about = request.about
         )
         postRepository.save(updatedPost)
         return postToPostViewMapper.map(updatedPost)
