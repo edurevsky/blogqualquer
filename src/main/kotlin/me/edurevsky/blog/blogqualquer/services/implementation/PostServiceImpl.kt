@@ -36,6 +36,10 @@ class PostServiceImpl(
         return renderedPostViewMapper.map(postEntity)
     }
 
+    override fun getPostById(id: Long): Post {
+        return postRepository.findById(id).orElseThrow { PostNotFoundException("$id not found") }
+    }
+
     override fun updatePost(request: UpdatePostRequest): PostView {
         val post: Post = postRepository.findById(request.id!!).orElseThrow { PostNotFoundException("Not found") }
         val updatedPost = post.copy(
