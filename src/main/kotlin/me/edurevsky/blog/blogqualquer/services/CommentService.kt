@@ -8,4 +8,6 @@ interface CommentService {
     fun findByPostId(id: Long): List<CommentView>
 
     fun addComment(comment: NewCommentRequest): CommentView
+
+    fun deleteComment(id: Long)
 }
