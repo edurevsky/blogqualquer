@@ -23,7 +23,7 @@ data class Post(
     val about: String? = null,
 
     @OneToMany(mappedBy = "post")
-    val comments: List<Comment> = listOf()
+    val comments: List<Comment> = mutableListOf()
 ) {
     val lastDate: LocalDateTime?
         get() {
