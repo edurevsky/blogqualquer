@@ -6,5 +6,6 @@ data class PostView(
     val content: String? = null,
     val lastDate: String? = null,
     val authorCompleteName: String? = null,
-    val about: String? = null
+    val about: String? = null,
+    val comments: List<CommentView>? = null
 )

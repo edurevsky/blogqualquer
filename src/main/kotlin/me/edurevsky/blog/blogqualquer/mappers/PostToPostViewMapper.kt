@@ -6,10 +6,13 @@ import me.edurevsky.blog.blogqualquer.mappers.DateTimeFormat.formatter
 import org.springframework.stereotype.Component
 
 @Component
-class PostToPostViewMapper : Mapper<Post, PostView> {
+class PostToPostViewMapper(
+    private val commentViewMapper: CommentViewMapper
+) : Mapper<Post, PostView> {
 
     override fun map(data: Post): PostView {
         val formattedDate = data.lastDate?.format(formatter)
+        val comments = data.comments.map { commentViewMapper.map(it) }
 
         return PostView(
             id = data.id,
@@ -17,7 +20,8 @@ class PostToPostViewMapper : Mapper<Post, PostView> {
             content = data.content,
             lastDate = formattedDate,
             authorCompleteName = data.author?.completeName,
-            about = data.about
+            about = data.about,
+            comments =  comments
         )
     }
 }
