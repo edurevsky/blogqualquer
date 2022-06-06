@@ -6,8 +6,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "posts")
 data class Post(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     val title: String? = null,
     val content: String? = null,
@@ -21,7 +20,10 @@ data class Post(
     @ManyToOne
     val author: User? = null,
 
-    val about: String? = null
+    val about: String? = null,
+
+    @OneToMany(mappedBy = "post")
+    val comments: List<Comment> = listOf()
 ) {
     val lastDate: LocalDateTime?
         get() {
