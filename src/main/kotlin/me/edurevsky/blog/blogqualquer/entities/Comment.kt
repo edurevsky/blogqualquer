@@ -1,5 +1,6 @@
 package me.edurevsky.blog.blogqualquer.entities
 
+import me.edurevsky.blog.blogqualquer.entities.LastModifiedDate.getNewerDate
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -23,4 +24,7 @@ data class Comment(
 
     @Column(name = "updated_at")
     val updatedAt: LocalDateTime? = null
-)
+) {
+
+    val lastDate = getNewerDate(createdAt, updatedAt)
+}

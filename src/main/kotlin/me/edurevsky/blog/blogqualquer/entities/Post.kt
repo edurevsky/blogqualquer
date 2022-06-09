@@ -1,5 +1,6 @@
 package me.edurevsky.blog.blogqualquer.entities
 
+import me.edurevsky.blog.blogqualquer.entities.LastModifiedDate.getNewerDate
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -25,12 +26,6 @@ data class Post(
     @OneToMany(mappedBy = "post")
     val comments: List<Comment> = mutableListOf()
 ) {
-    val lastDate: LocalDateTime?
-        get() {
-            return if (releaseDate?.isAfter(updateDate) == true) {
-                 releaseDate
-            } else {
-                updateDate
-            }
-        }
+
+    val lastDate = getNewerDate(releaseDate, updateDate)
 }
