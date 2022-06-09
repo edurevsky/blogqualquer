@@ -27,5 +27,6 @@ data class Post(
     val comments: List<Comment> = mutableListOf()
 ) {
 
-    val lastDate = getNewerDate(releaseDate, updateDate)
+    val lastDate: LocalDateTime?
+        get() = getNewerDate(releaseDate, updateDate)
 }

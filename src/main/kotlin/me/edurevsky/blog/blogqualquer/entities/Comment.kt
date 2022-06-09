@@ -26,5 +26,6 @@ data class Comment(
     val updatedAt: LocalDateTime? = null
 ) {
 
-    val lastDate = getNewerDate(createdAt, updatedAt)
+    val lastDate: LocalDateTime?
+        get() = getNewerDate(createdAt, updatedAt)
 }
