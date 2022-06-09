@@ -22,7 +22,6 @@ class PostRestController(
     private val postService: PostService,
 ) {
 
-    @CacheEvict(value = ["singlePost", "paginatedPosts"], allEntries = true)
     @PostMapping
     fun saveNewPost(
         @Valid @RequestBody postRequest: NewPostRequest,
@@ -33,24 +32,20 @@ class PostRestController(
         return ResponseEntity.created(uri).body(postView)
     }
 
-    @Cacheable("singlePost")
     @GetMapping("/{id}")
     fun findById(@PathVariable("id") id: Long): ResponseEntity<RenderedPostView> {
         val post = postService.findById(id)
         return ResponseEntity.ok(post)
     }
 
-    @CacheEvict(value = ["singlePost", "paginatedPosts"], allEntries = true)
     @PutMapping
     @Transactional
     fun updatePost(@Valid @RequestBody request: UpdatePostRequest): PostView = postService.updatePost(request)
 
-    @CacheEvict(value = ["singlePost", "paginatedPosts"], allEntries = true)
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletePost(@PathVariable("id") id: Long) = postService.deletePost(id)
 
-    @Cacheable("paginatedPosts")
     @GetMapping
     fun findPaginated(@PageableDefault(size = 10, sort = ["updateDate"]) pageable: Pageable) = postService.findPaginated(pageable)
 }
