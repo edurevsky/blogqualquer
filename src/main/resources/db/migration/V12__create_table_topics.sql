@@ -1,0 +1,4 @@
+CREATE TABLE topics (
+    id     BIGINT PRIMARY KEY NOT NULL,
+    `name` VARCHAR(50) NOT NULL
+)
