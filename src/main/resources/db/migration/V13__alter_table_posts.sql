@@ -1,0 +1,3 @@
+ALTER TABLE posts
+ADD COLUMN topic_id BIGINT NOT NULL,
+ADD FOREIGN KEY (topic_id) REFERENCES topics(id);
