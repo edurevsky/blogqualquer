@@ -1,6 +1,6 @@
 package me.edurevsky.blog.blogqualquer.entities
 
-import me.edurevsky.blog.blogqualquer.entities.LastModifiedDate.getNewerDate
+import me.edurevsky.blog.blogqualquer.utils.LastModifiedDate.getNewerDate
 import java.time.LocalDateTime
 import javax.persistence.*
 

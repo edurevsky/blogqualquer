@@ -1,4 +1,4 @@
-package me.edurevsky.blog.blogqualquer.entities
+package me.edurevsky.blog.blogqualquer.utils
 
 import java.time.LocalDateTime
 

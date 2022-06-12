@@ -2,7 +2,7 @@ package me.edurevsky.blog.blogqualquer.mappers
 
 import me.edurevsky.blog.blogqualquer.dto.PostView
 import me.edurevsky.blog.blogqualquer.entities.Post
-import me.edurevsky.blog.blogqualquer.mappers.DateTimeFormat.formatter
+import me.edurevsky.blog.blogqualquer.utils.DateTimeFormat.formatter
 import org.springframework.stereotype.Component
 
 @Component

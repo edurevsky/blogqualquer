@@ -1,4 +1,4 @@
-package me.edurevsky.blog.blogqualquer.mappers
+package me.edurevsky.blog.blogqualquer.utils
 
 import java.time.format.DateTimeFormatter
 
