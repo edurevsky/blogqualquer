@@ -19,12 +19,17 @@ data class Post(
     val updateDate: LocalDateTime? = null,
 
     @ManyToOne
+    @JoinColumn(name = "author_id")
     val author: User? = null,
 
     val about: String? = null,
 
     @OneToMany(mappedBy = "post")
-    val comments: List<Comment> = mutableListOf()
+    val comments: List<Comment> = mutableListOf(),
+
+    @ManyToOne
+    @JoinColumn(name = "topic_id")
+    val topic: Topic? = null
 ) {
 
     val lastDate: LocalDateTime?
