@@ -11,5 +11,7 @@ data class NewPostRequest(
     @field:NotNull
     val authorId: Long? = null,
     @field:NotBlank(message = "Sobre não pode estar vazio.")
-    val about: String? = null
+    val about: String? = null,
+    @field:NotNull(message = "O tópico é obrigatório")
+    val topicId: Long? = null
 )

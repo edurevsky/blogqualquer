@@ -48,4 +48,10 @@ class PostRestController(
 
     @GetMapping
     fun findPaginated(@PageableDefault(size = 10, sort = ["updateDate"]) pageable: Pageable) = postService.findPaginated(pageable)
+
+    @GetMapping("/topics/{topicName}")
+    fun findByTopicNamePaginated(
+        @PathVariable("topicName") topicName: String,
+        @PageableDefault(size = 10, sort = ["updateDate"]) pageable: Pageable
+    ) = postService.findByTopicPaginated(topicName, pageable)
 }

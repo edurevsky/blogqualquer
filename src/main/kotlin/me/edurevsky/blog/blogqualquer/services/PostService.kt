@@ -21,4 +21,6 @@ interface PostService {
     fun deletePost(id: Long)
 
     fun findPaginated(pageable: Pageable): Page<PostView>
+
+    fun findByTopicPaginated(topicName: String, pageable: Pageable): Page<PostView>
 }

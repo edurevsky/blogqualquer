@@ -61,4 +61,9 @@ class PostServiceImpl(
         val posts = postRepository.findAll(pageable)
         return posts.map { post -> postToPostViewMapper.map(post) }
     }
+
+    override fun findByTopicPaginated(topicName: String, pageable: Pageable): Page<PostView> {
+        val posts = postRepository.findByTopicName(topicName, pageable)
+        return posts.map { p -> postToPostViewMapper.map(p) }
+    }
 }
