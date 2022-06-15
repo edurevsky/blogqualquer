@@ -13,7 +13,6 @@ class PostToPostViewMapper(
     override fun map(data: Post): PostView {
         val formattedDate = data.lastDate?.format(formatter)
         val comments = data.comments.map { commentViewMapper.map(it) }
-
         return PostView(
             id = data.id,
             title = data.title,
@@ -21,7 +20,8 @@ class PostToPostViewMapper(
             lastDate = formattedDate,
             authorCompleteName = data.author?.completeName,
             about = data.about,
-            comments =  comments
+            comments = comments,
+            isOpen = data.isOpen
         )
     }
 }

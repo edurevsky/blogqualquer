@@ -24,7 +24,8 @@ class NewPostRequestToPostMapper(
             updateDate = currentDateTime,
             author = author,
             about = data.about,
-            topic = topic
+            topic = topic,
+            isOpen = true
         )
     }
 }
