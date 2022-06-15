@@ -29,7 +29,10 @@ data class Post(
 
     @ManyToOne
     @JoinColumn(name = "topic_id")
-    val topic: Topic? = null
+    val topic: Topic? = null,
+
+    @Column(name = "open")
+    val isOpen: Boolean? = null
 ) {
 
     val lastDate: LocalDateTime?
