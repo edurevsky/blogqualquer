@@ -1,0 +1,2 @@
+ALTER TABLE posts
+ADD COLUMN `open` BIT NOT NULL;
