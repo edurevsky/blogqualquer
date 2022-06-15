@@ -36,4 +36,15 @@ class ExceptionHandler {
             path = request.servletPath
         )
     }
+
+    @ExceptionHandler(ClosedPostException::class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    fun handleClosedPostException(e: ClosedPostException, request: HttpServletRequest): ErrorView {
+        return ErrorView(
+            status = HttpStatus.CONFLICT.value(),
+            error = HttpStatus.CONFLICT.name,
+            message = e.message,
+            path = request.servletPath
+        )
+    }
 }
