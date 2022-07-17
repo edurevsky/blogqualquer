@@ -9,20 +9,20 @@ import javax.persistence.*
 data class Post(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    val title: String? = null,
-    val content: String? = null,
+    var title: String? = null,
+    var content: String? = null,
 
     @Column(name = "release_date")
     val releaseDate: LocalDateTime? = null,
 
     @Column(name = "update_date")
-    val updateDate: LocalDateTime? = null,
+    var updateDate: LocalDateTime? = null,
 
     @ManyToOne
     @JoinColumn(name = "author_id")
     val author: User? = null,
 
-    val about: String? = null,
+    var about: String? = null,
 
     @OneToMany(mappedBy = "post")
     val comments: List<Comment> = mutableListOf(),
@@ -37,4 +37,11 @@ data class Post(
 
     val lastDate: LocalDateTime?
         get() = getNewerDate(releaseDate, updateDate)
+
+    fun update(title: String, content: String, about: String) {
+        this.updateDate = LocalDateTime.now()
+        this.title = title
+        this.content = content
+        this.about = about
+    }
 }

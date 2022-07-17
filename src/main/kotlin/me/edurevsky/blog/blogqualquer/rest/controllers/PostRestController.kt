@@ -18,6 +18,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/posts")
+@CrossOrigin
 class PostRestController(
     private val postService: PostService,
 ) {

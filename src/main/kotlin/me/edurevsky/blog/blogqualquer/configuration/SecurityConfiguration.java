@@ -1,6 +1,7 @@
 package me.edurevsky.blog.blogqualquer.configuration;
 
 import me.edurevsky.blog.blogqualquer.security.JWTAuthenticationFilter;
+import me.edurevsky.blog.blogqualquer.security.JWTLoginFilter;
 import me.edurevsky.blog.blogqualquer.security.JWTUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,22 +23,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private final UserDetailsService userDetailsService;
+    private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
 
-    public SecurityConfiguration(UserDetailsService userDetailsService, JWTUtil jwtUtil) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfiguration(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
+        this.authenticationConfiguration = authenticationConfiguration;
         this.jwtUtil = jwtUtil;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
@@ -57,10 +53,10 @@ public class SecurityConfiguration {
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .csrf()
-            .disable()
-
-            // ?.addFilterBefore(JWTLoginFilter(authManager = authenticationManager(), jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
+            .csrf().disable()
+            .formLogin().disable().httpBasic()
+            .and()
+            .addFilterBefore(new JWTLoginFilter(jwtUtil, authenticationConfiguration.getAuthenticationManager()), UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JWTAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

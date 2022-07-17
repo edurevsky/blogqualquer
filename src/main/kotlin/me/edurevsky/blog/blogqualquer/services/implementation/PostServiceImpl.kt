@@ -14,7 +14,6 @@ import me.edurevsky.blog.blogqualquer.services.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class PostServiceImpl(
@@ -42,14 +41,12 @@ class PostServiceImpl(
 
     override fun updatePost(request: UpdatePostRequest): PostView {
         val post: Post = postRepository.findById(request.id!!).orElseThrow { PostNotFoundException("Not found") }
-        val updatedPost = post.copy(
-            updateDate = LocalDateTime.now(),
-            title = request.title,
-            content = request.content,
-            about = request.about
+        post.update(
+            title = request.title!!,
+            content = request.content!!,
+            about = request.about!!
         )
-        postRepository.save(updatedPost)
-        return postToPostViewMapper.map(updatedPost)
+        return postToPostViewMapper.map(post)
     }
 
     override fun deletePost(id: Long) {
