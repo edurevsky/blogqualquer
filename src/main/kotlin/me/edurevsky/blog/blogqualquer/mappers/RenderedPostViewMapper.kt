@@ -2,7 +2,6 @@ package me.edurevsky.blog.blogqualquer.mappers
 
 import me.edurevsky.blog.blogqualquer.dto.RenderedPostView
 import me.edurevsky.blog.blogqualquer.entities.Post
-import me.edurevsky.blog.blogqualquer.utils.DateTimeFormat.formatter
 import me.edurevsky.blog.blogqualquer.services.MarkdownService
 import org.springframework.stereotype.Component
 
@@ -14,13 +13,12 @@ class RenderedPostViewMapper(
 
     override fun map(data: Post): RenderedPostView {
         val renderedContent = markdownService.render(data.content!!)
-        val formattedDate = data.lastDate?.format(formatter)
         val comments = data.comments.map { commentViewMapper.map(it) }
 
         return RenderedPostView(
             title = data.title,
             content = renderedContent,
-            lastDate = formattedDate,
+            lastDate = data.lastDate,
             authorCompleteName = data.author?.completeName,
             comments = comments
         )
