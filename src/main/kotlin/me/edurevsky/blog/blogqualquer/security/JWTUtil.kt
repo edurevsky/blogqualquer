@@ -42,7 +42,7 @@ class JWTUtil(
     fun getAuthentication(jwt: String?): Authentication {
         val username = parseClaims(jwt).body.subject
         val user = userDetailsService.loadUserByUsername(username)
-        return UsernamePasswordAuthenticationToken(username, null, user.authorities)
+        return UsernamePasswordAuthenticationToken(user, null, user.authorities)
     }
 
     private fun parseClaims(jwt: String?) = Jwts.parser().setSigningKey(applicationSecret.toByteArray()).parseClaimsJws(jwt)

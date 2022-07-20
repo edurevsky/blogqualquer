@@ -24,7 +24,7 @@ class JWTAuthenticationFilter(
         filterChain.doFilter(request, response)
     }
 
-    fun getToken(token: String?): String? {
+    private fun getToken(token: String?): String? {
         return if (token?.startsWith("Bearer ") == true) {
             token.substring(7, token.length)
         } else {
